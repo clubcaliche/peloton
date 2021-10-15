@@ -38,7 +38,7 @@ do
           </div>
       </div>
     </div>
-    EOF
+EOF
 done
 
 cat << EOF >> pictures.html
