@@ -1,21 +1,24 @@
-echo "<!DOCTYPE html>" >> pictures.html
-echo "<html>" >> pictures.html
-echo "<head>" >> pictures.html
-echo '<meta name="viewport" content="width=device-width, initial-scale=1">' >> pictures.html
-echo '<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">' >> pictures.html
-echo "<style>" >> pictures.html
-echo "p {" >> pictures.html
-echo "  color: blue;" >> pictures.html
-echo "  font-family: verdana;" >> pictures.html
-echo "  font-size: 100%;" >> pictures.html
-echo "}" >> pictures.html
-echo "</style>" >> pictures.html
-echo "</head>" >> pictures.html
-echo "<body>" >> pictures.html
+rm pictures.html
+cat << EOF >> pictures.html
+<!DOCTYPE html> 
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+p {
+  color: blue;
+  font-family: verdana;
+  font-size: 100%;
+}
+</style>
+</head>
+<body>
 
-echo '<div class="w3-container w3-teal">' >> pictures.html
-echo '  <h1>Peloton Instructors</h1>' >> pictures.html
-echo '</div>' >> pictures.html
+<div class="w3-container w3-teal">
+  <h1>Peloton Instructors</h1>
+</div>
+EOF
 
 curl -X 'GET' \
     'https://api.onepeloton.com/api/instructor?limit=60' \
@@ -24,17 +27,21 @@ curl -X 'GET' \
     while read IMAGE NAME
 
 do
-    echo "<div class=w3-card-4>" >> pictures.html
-    echo "</div>" >> pictures.html
-    echo "<div class=w3-third>" >> pictures.html
-    echo "  <div class=w3-card>" >> pictures.html
-    echo "      <img src=$IMAGE style=width:100%>" >> pictures.html
-    echo "      <div class=w3-container>" >> pictures.html
-    echo "          <h4>$NAME</h4>" >> pictures.html
-    echo "      </div>" >> pictures.html
-    echo "  </div>" >> pictures.html
-    echo "</div>" >> pictures.html
+    cat << EOF >> pictures.html
+    <div class=w3-card-4>
+    </div>
+    <div class=w3-third>
+      <div class=w3-card>
+          <img src=$IMAGE style=width:100%>
+          <div class=w3-container>
+              <h4>$NAME</h4>
+          </div>
+      </div>
+    </div>
+    EOF
 done
 
-echo "</body>" >> pictures.html
-echo "</html>" >> pictures.html
+cat << EOF >> pictures.html
+</body> 
+</html>
+EOF
