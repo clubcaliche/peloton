@@ -1,5 +1,5 @@
 Remove-Item photos.html
-New-Item photos.html -Itemtype file
+New-Item photos.html -Itemtype file | Out-Null
 Add-Content photos.html '
 <!DOCTYPE html>
 <html>
