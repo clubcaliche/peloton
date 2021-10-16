@@ -20,13 +20,15 @@ p {
 <h1>Peloton Instructors</h1>
 </div>'
 
-$json = curl.exe -X 'GET' `
-  'https://api.onepeloton.com/api/instructor?limit=50' `
-  -H 'accept: application/json'
+#$json = curl.exe -X 'GET' `
+#  'https://api.onepeloton.com/api/instructor?limit=50' `
+#  -H 'accept: application/json'
 
-$data = ConvertFrom-Json $json
+#$data = ConvertFrom-Json $json
 
-$data | ForEach $_ {
+$rest = Invoke-RestMethod https://api.onepeloton.com/api/instructor?limit=50
+
+$rest | ForEach $_ {
   $count = $data.count
   $i = 0
   #loop through the array ... 0 to Count-1
