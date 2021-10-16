@@ -28,7 +28,7 @@ p {
 
 $rest = Invoke-RestMethod https://api.onepeloton.com/api/instructor?limit=50
 
-$rest | ForEach $_ {
+$rest | ForEach-Object $_ {
   $count = $data.count
   $i = 0
   #loop through the array ... 0 to Count-1
