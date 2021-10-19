@@ -26,10 +26,10 @@ p {
 
 #$data = ConvertFrom-Json $json
 
-$rest = Invoke-RestMethod https://api.onepeloton.com/api/instructor?limit=50
+$rest = Invoke-RestMethod -Method Get -Uri https://api.onepeloton.com/api/instructor?limit=50
 
 $rest | ForEach-Object $_ {
-  $count = $data.count
+  $count = $rest.count
   $i = 0
   #loop through the array ... 0 to Count-1
   while ($i -lt $count) {
@@ -38,18 +38,18 @@ $rest | ForEach-Object $_ {
     </div>
     <div class=w3-third>
       <div class=w3-card>
-          <img src='
-          Add-Content photos.html $_.data[$i].image_url
-          Add-Content photos.html '
-          style=width:100%>
+        <img src='
+        Add-Content photos.html $_.data[$i].image_url
+        Add-Content photos.html '
+        style=width:100%>
           <div class=w3-container>
-              <h4>'
-              Add-Content photos.html $_.data[$i].name
-              Add-Content photos.html '</h4>
+            <h4>'
+            Add-Content photos.html $_.data[$i].name
+            Add-Content photos.html '</h4>
           </div>
       </div>
     </div>'
-    $i++
+  $i++
   }
 }
 
