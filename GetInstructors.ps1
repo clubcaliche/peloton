@@ -65,7 +65,7 @@ function Get-Instructors2() {
 
     param (
         [int]$Page = 0,
-        [int]$Limit = 25
+        [int]$Limit = 5
     )
 
     $instructors_uri = "https://api.onepeloton.com/api/instructor?page=$Page&limit=$Limit"
@@ -88,12 +88,12 @@ function Get-Instructors2() {
 
 ##### Test the functions #####
 
-Write-Host "Test using Invoke-RestMethod"
-$instructors1 = Get-Instructors1
-Write-Host("Found $($instructors1.Count) instructors")
+#Write-Host "Test using Invoke-RestMethod"
+#$instructors1 = Get-Instructors1
+#Write-Host("Found $($instructors1.Count) instructors")
 
-Write-Host
+#Write-Host
 
-Write-Host "Test using Invoke-WebRequest"
-$instructors2 = Get-Instructors2
-Write-Host("Found $($instructors2.Count) instructors")
+#Write-Host "Test using Invoke-WebRequest"
+#$instructors2 = Get-Instructors2
+#Write-Host("Found $($instructors2.Count) instructors")
