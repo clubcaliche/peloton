@@ -58,16 +58,76 @@ p.subtitle {
 }
 
 .polaroid {
-    background: var(--polaroid-bg);
-    padding: 15px 15px 50px 15px; /* Deep bottom padding for polaroid look */
-    border-radius: 4px;
-    box-shadow: var(--shadow-soft);
-    transition: var(--transition-smooth);
+    perspective: 1000px;
     cursor: pointer;
     position: relative;
-    transform-origin: center center;
-    transform-style: preserve-3d;
     will-change: transform;
+    transition: var(--transition-smooth);
+}
+
+.polaroid-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
+}
+
+.polaroid.is-flipped .polaroid-inner {
+    transform: rotateY(180deg);
+}
+
+.polaroid-front, .polaroid-back {
+    backface-visibility: hidden;
+    background: var(--polaroid-bg);
+    border-radius: 4px;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.polaroid-front {
+    padding: 15px 15px 50px 15px; /* Deep bottom padding for polaroid look */
+    z-index: 2;
+}
+
+.polaroid-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-main);
+    z-index: 1;
+    overflow: hidden;
+}
+
+.quote-text {
+    font-size: 1.4rem;
+    font-style: italic;
+    font-weight: 500;
+    position: relative;
+    z-index: 2;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.polaroid-back .quote-mark {
+    font-size: 8rem;
+    color: rgba(0,0,0,0.05);
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-family: serif;
+    line-height: 1;
+    z-index: 0;
 }
 
 /* Subtle tape effect at the top of the polaroid */
@@ -81,9 +141,10 @@ p.subtitle {
     height: 25px;
     background: rgba(255, 255, 255, 0.4);
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    z-index: 2;
+    z-index: 10;
     border-radius: 2px;
     backdrop-filter: blur(2px);
+    pointer-events: none;
 }
 
 .polaroid-img-wrapper {

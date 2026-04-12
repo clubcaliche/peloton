@@ -19,13 +19,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             polaroid.className = 'polaroid';
             
             // Add slight random rotation to make it feel like scattered polaroids
-            // Rotate between -5deg and 5deg
             const baseRotation = (Math.random() * 10) - 5;
-            // Add slight random staggered heights
             const randomY = (Math.random() * 20) - 10;
-            
             polaroid.style.transform = `translateY(${randomY}px) rotate(${baseRotation}deg)`;
 
+            const inner = document.createElement('div');
+            inner.className = 'polaroid-inner';
+
+            const front = document.createElement('div');
+            front.className = 'polaroid-front';
+
+            const back = document.createElement('div');
+            back.className = 'polaroid-back';
+
+            // Build front
             const imgWrapper = document.createElement('div');
             imgWrapper.className = 'polaroid-img-wrapper';
 
@@ -39,21 +46,36 @@ document.addEventListener('DOMContentLoaded', async () => {
             caption.textContent = instructor.name;
 
             imgWrapper.appendChild(img);
-            polaroid.appendChild(imgWrapper);
-            polaroid.appendChild(caption);
+            front.appendChild(imgWrapper);
+            front.appendChild(caption);
+
+            // Build back
+            const quoteText = instructor.quote ? instructor.quote : "Let's put in the work!";
+            back.innerHTML = `
+                <div class="quote-mark">"</div>
+                <div class="quote-text">${quoteText}</div>
+            `;
+
+            inner.appendChild(front);
+            inner.appendChild(back);
+            polaroid.appendChild(inner);
             gallery.appendChild(polaroid);
+
+            // Flip on click
+            polaroid.addEventListener('click', () => {
+                polaroid.classList.toggle('is-flipped');
+            });
 
             // Dynamic hover state handling via JS to preserve the base transform
             polaroid.addEventListener('mouseenter', () => {
                 polaroid.style.transform = `translateY(${randomY - 15}px) scale(1.08) rotate(0deg)`;
-                polaroid.style.boxShadow = 'var(--shadow-hover)';
+                // Do not override box-shadow here anymore since it's on the inner cards
                 polaroid.style.zIndex = '50';
                 img.style.filter = 'grayscale(0%) sepia(0%) contrast(1)';
             });
 
             polaroid.addEventListener('mouseleave', () => {
                 polaroid.style.transform = `translateY(${randomY}px) rotate(${baseRotation}deg)`;
-                polaroid.style.boxShadow = 'var(--shadow-soft)';
                 polaroid.style.zIndex = '1';
                 img.style.filter = 'grayscale(100%) sepia(20%) contrast(1.1)';
             });
