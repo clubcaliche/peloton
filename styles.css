@@ -48,6 +48,43 @@ p.subtitle {
     margin: 0 auto;
 }
 
+.controls-container {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.instructor-filter {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    font-family: 'Outfit', sans-serif;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 30px;
+    width: 100%;
+    max-width: 400px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    color: var(--text-main);
+}
+
+.instructor-filter:focus {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    border-color: rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+}
+
+.instructor-count {
+    font-size: 1.05rem;
+    color: #636e72;
+    font-weight: 500;
+}
+
 .gallery {
     max-width: 1400px;
     margin: 0 auto;

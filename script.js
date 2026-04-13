@@ -10,10 +10,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Use the globally available data from data.js
         const data = pelotonData;
+        const filterInput = document.getElementById('instructor-filter');
+        const countNumber = document.getElementById('count-number');
+        
+        let validInstructorsCount = 0;
+        const polaroidElements = [];
 
         data.data.forEach((instructor, index) => {
             // Only show instructors that have a valid image and name
             if (!instructor.image_url || !instructor.name) return;
+            validInstructorsCount++;
 
             const polaroid = document.createElement('div');
             polaroid.className = 'polaroid';
@@ -79,7 +85,31 @@ document.addEventListener('DOMContentLoaded', async () => {
                 polaroid.style.zIndex = '1';
                 img.style.filter = 'grayscale(100%) sepia(20%) contrast(1.1)';
             });
+
+            polaroidElements.push({ element: polaroid, name: instructor.name.toLowerCase() });
         });
+
+        // Initialize count
+        if (countNumber) countNumber.textContent = validInstructorsCount;
+
+        // Filter logic
+        if (filterInput) {
+            filterInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                let visibleCount = 0;
+                
+                polaroidElements.forEach(item => {
+                    if (item.name.includes(searchTerm)) {
+                        item.element.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        item.element.style.display = 'none';
+                    }
+                });
+                
+                if (countNumber) countNumber.textContent = visibleCount;
+            });
+        }
 
     } catch (err) {
         console.error("Failed to load instructors:", err);

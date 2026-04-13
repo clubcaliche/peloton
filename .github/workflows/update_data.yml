@@ -15,7 +15,7 @@ jobs:
       - name: Fetch latest instructor data
         run: |
           # Download the data to a temporary file
-          curl -s -H "User-Agent: Mozilla/5.0" "https://api.onepeloton.com/api/instructor?limit=50" -o temp_data.json
+          curl -s -H "User-Agent: Mozilla/5.0" "https://api.onepeloton.com/api/instructor?limit=80" -o temp_data.json
           
           # Validate that it's actually valid JSON returned from the API (fails the step if invalid)
           jq . temp_data.json > /dev/null
