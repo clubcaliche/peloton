@@ -1,0 +1,43 @@
+name: Update Peloton Data Daily
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs every day at midnight UTC
+  workflow_dispatch: # Allows you to manually click a "Run workflow" button in GitHub UI
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch latest instructor data
+        run: |
+          # Download the data to a temporary file
+          curl -s -H "User-Agent: Mozilla/5.0" "https://api.onepeloton.com/api/instructor?limit=50" -o temp_data.json
+          
+          # Validate that it's actually valid JSON returned from the API (fails the step if invalid)
+          jq . temp_data.json > /dev/null
+          
+          # Write the JSON data directly into a JavaScript variable assignment
+          echo "const pelotonData = " > data.js
+          cat temp_data.json >> data.js
+          echo ";" >> data.js
+          
+          # Cleanup temp file
+          rm temp_data.json
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data.js
+          
+          # Only commit and push if data.js actually has new data
+          if git diff --staged --quiet; then
+            echo "No changes in data.js to commit. Everything is up to date!"
+          else
+            git commit -m "Auto-update peloton instructor data"
+            git push
+          fi
